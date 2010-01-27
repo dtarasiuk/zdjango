@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Name:</h2><p>{{ info.name }}</p>
+<h2>Surname:</h2><p>{{ info.surname }}</p>
+<h2>About:</h2><p>{{ info.about }}</p>
+<h2>Contacts:</h2><p>{{ info.contacts|safe }}</p>
+{% endblock %}
