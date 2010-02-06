@@ -5,7 +5,7 @@
     <body>
         <div style="text-align: right">
             {% if user_display_name %}
-                Hello, {{ user_display_name }}
+                Hello, {{ user_display_name }}. <a href="/simple/logout/">Logout</a>
             {% else %}
             <span class="font-color:red">{{ error.value }}</span>
                 <form action="/simple/" onsubmit="if(!((document.getElementById('username').value)&&(document.getElementById('userpass').value))){alert('empty data!'); return false;}" method="POST">

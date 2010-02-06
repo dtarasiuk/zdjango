@@ -1,7 +1,7 @@
 from django.template import loader, Context
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from djangotest.simple.models import UserInfo
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 def main(request):
     error = []
@@ -9,7 +9,8 @@ def main(request):
         error = loginUser(request)
         
     info = UserInfo.objects.get()
-    
+    if not info:
+        raise Exception("Empty base")
     data = {'info': info}
     if error:
         data['error'] = error
@@ -28,3 +29,7 @@ def loginUser(request):
         return
     else:
         return {"type": 1, "value": "pass incorrect"}
+
+def logoutUser(request):
+    logout(request)
+    return HttpResponseRedirect("../")
