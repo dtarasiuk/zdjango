@@ -77,9 +77,10 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
-    'djangotest.simple'
+    'djangotest.simple',
+    'windmill'
 )
 
 FIXTURE_DIRS = (
-   '/fixtures/',
+   'fixtures/',
 )
