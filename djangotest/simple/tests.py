@@ -1,5 +1,5 @@
 from django.test import TestCase
-from models import UserInfo
+from models import UserInfo, Counter
 from django.contrib.auth.models import User
 
 class ModelTest(TestCase):
@@ -30,3 +30,8 @@ class ModelTest(TestCase):
         response = self.client.post('/simple/', post_data)
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, "Hello,")
+
+    def test_middleware(self):
+        response = self.client.get('/simple/')
+        last_counter = Counter.objects.get()
+        self.assertEqual('/simple/', last_counter.url)
