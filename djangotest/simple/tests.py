@@ -35,3 +35,16 @@ class ModelTest(TestCase):
         response = self.client.get('/simple/')
         last_counter = Counter.objects.get()
         self.assertEqual('/simple/', last_counter.url)
+
+    def test_context_processor(self):
+        response = self.client.get('/simple/')
+        contexts = response.context
+
+        exist = 0
+        for item in contexts:
+            if item.has_key('settings'):
+                settings = item['settings']
+                if hasattr(settings,'INSTALLED_APPS'):
+                    exist = 1
+
+        self.assertEqual(exist, 1)
