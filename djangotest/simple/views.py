@@ -1,3 +1,4 @@
+from djangotest.simple.models import UserInfoForm
 from django.template import loader, Context
 from django.http import HttpResponse, HttpResponseRedirect
 from djangotest.simple.models import UserInfo
@@ -5,15 +6,14 @@ from django.contrib.auth import authenticate, login, logout
 from django.conf import settings
 
 def main(request):
-    #print settings
     error = []
     if (request.POST.has_key('username') and request.POST.has_key('userpass')):
         error = loginUser(request)
-
+    
     info = UserInfo.objects.get()
     if not info:
         raise Exception("Empty base")
-    data = {'info': info, 'settings': settings}
+    data = {'info': info,'settings': settings}
     if error:
         data['error'] = error
     if request.user.is_authenticated():

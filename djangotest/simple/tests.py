@@ -48,3 +48,16 @@ class ModelTest(TestCase):
                     exist = 1
 
         self.assertEqual(exist, 1)
+
+    def test_error_edit(self):
+        """not full data test"""
+        response = self.client.post('/simple/', {'name':'test name'})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "This field is required.")
+
+    def test_success_edit(self):
+        info = UserInfo.objects.get()
+
+        response = self.client.post('/simple/', {'name':'new name', 'surname':'new surname', 'about': 'new about', 'contacts': 'new contacts'})
+        info = UserInfo.objects.get()
+        self.assertEqual([info.name, info.surname, info.about, info.contacts], ['new '+x for x in ['name', 'surname', 'about', 'contacts']])

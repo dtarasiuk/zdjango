@@ -1,4 +1,6 @@
 from django.db import models
+from django.forms import ModelForm
+
 
 class UserInfo(models.Model):
     name = models.CharField(max_length=150)
