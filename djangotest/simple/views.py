@@ -13,7 +13,10 @@ def main(request):
     info = UserInfo.objects.get()
     if not info:
         raise Exception("Empty base")
-    data = {'info': info,'settings': settings}
+    form = UserInfoForm(request.POST, instance=info)
+    if form.is_valid():
+        form.save()
+    data = {'info': info, 'form': form,'settings': settings}
     if error:
         data['error'] = error
     if request.user.is_authenticated():

@@ -11,3 +11,7 @@ class UserInfo(models.Model):
 class Counter(models.Model):
     url = models.CharField(max_length=256)
     datetime = models.DateTimeField(auto_now=True)
+
+class UserInfoForm(ModelForm):
+    class Meta:
+        model = UserInfo
