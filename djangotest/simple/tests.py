@@ -61,3 +61,8 @@ class ModelTest(TestCase):
         response = self.client.post('/simple/', {'name':'new name', 'surname':'new surname', 'about': 'new about', 'contacts': 'new contacts'})
         info = UserInfo.objects.get()
         self.assertEqual([info.name, info.surname, info.about, info.contacts], ['new '+x for x in ['name', 'surname', 'about', 'contacts']])
+
+    def test_calendar_exist(self):
+        response = self.client.get('/simple/')
+        self.failUnlessEqual(response.status_code, 200)
+        self.assertContains(response, 'Calendar widget')
