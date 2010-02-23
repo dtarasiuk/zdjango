@@ -66,3 +66,12 @@ class ModelTest(TestCase):
         response = self.client.get('/simple/')
         self.failUnlessEqual(response.status_code, 200)
         self.assertContains(response, '<select name="birthday_month" id="id_birthday_month">')
+
+    def test_inverted(self):
+        """Check if inverted form"""
+        response = self.client.get('/simple/')
+        self.failUnlessEqual(response.status_code, 200)
+        self.assertContains(response, 'Name:')
+        self.assertContains(response, 'Contacts:')
+        content = str(response)
+        assert(content.find('id="id_name"')>content.find('id="id_contacts"'))
