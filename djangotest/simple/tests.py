@@ -58,11 +58,11 @@ class ModelTest(TestCase):
     def test_success_edit(self):
         info = UserInfo.objects.get()
 
-        response = self.client.post('/simple/', {'name':'new name', 'surname':'new surname', 'about': 'new about', 'contacts': 'new contacts'})
+        response = self.client.post('/simple/', {'name':'new name', 'surname':'new surname', 'about': 'new about', 'contacts': 'new contacts', 'birthday': '2010-02-17'})
         info = UserInfo.objects.get()
         self.assertEqual([info.name, info.surname, info.about, info.contacts], ['new '+x for x in ['name', 'surname', 'about', 'contacts']])
 
     def test_calendar_exist(self):
         response = self.client.get('/simple/')
         self.failUnlessEqual(response.status_code, 200)
-        self.assertContains(response, 'Calendar widget')
+        self.assertContains(response, '<select name="birthday_month" id="id_birthday_month">')
