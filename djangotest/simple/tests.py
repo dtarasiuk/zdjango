@@ -1,6 +1,7 @@
 from django.test import TestCase
 from models import UserInfo, Counter
 from django.contrib.auth.models import User
+from django.template import Template, Context
 
 class ModelTest(TestCase):
     def test_fixtures(self):
@@ -75,3 +76,18 @@ class ModelTest(TestCase):
         self.assertContains(response, 'Contacts:')
         content = str(response)
         assert(content.find('id="id_name"')>content.find('id="id_contacts"'))
+
+    def test_tags(self):
+        response = self.client.get('/simple/')
+        userinfo = UserInfo.objects.get()
+
+        rendered = Template('{% load tagediturl %}{% edit_url "userinfo" %}')
+        context = Context({"userinfo": userinfo})
+        geturl = rendered.render(context)
+        
+        url = "/admin/simple/userinfo/%s/" % (userinfo.id)
+        
+        self.assertEqual(geturl, url, "admin url tag error")
+        
+        response = self.client.get(geturl)
+        self.assertEqual(response.status_code, 200, 'Error in link address to admin: %s')
