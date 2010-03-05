@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.template import Template, Context
 import sys
 from django.core.management import call_command
+from django.contrib.admin.models import LogEntry
 
 class ModelTest(TestCase):
     def test_fixtures(self):
@@ -104,3 +105,9 @@ class ModelTest(TestCase):
             sys.stdout.close()
             sys.stdin, sys.stdout = std_old
         self.assertFalse(response)
+
+    def test_signals(self):
+        old_count = LogEntry.objects.count()
+        userobject = UserInfo(name = 'testname', surname = 'testsurname', birthday = '2010-02-17', about = 'test', contacts = 'test');
+        userobject.save()
+        self.assertNotEqual(old_count, LogEntry.objects.count())
