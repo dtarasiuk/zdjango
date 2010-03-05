@@ -96,8 +96,11 @@ class ModelTest(TestCase):
 
     def test_command(self):
         std_old = sys.stdin, sys.stdout
-        sys.stdout = open("out.txt","w")
+        sys.stdout = open("out.txt","r+w")
         call_command('printmodels')
-        response = sys.stdout.lines
-        sys.stdin, sys.stdout = std_old
+        try:
+            response = sys.stdout.readlines()
+        finally:
+            sys.stdout.close()
+            sys.stdin, sys.stdout = std_old
         self.assertFalse(response)
