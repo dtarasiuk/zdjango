@@ -1,1 +1,19 @@
-[{"pk": 1, "model": "simple.userinfo", "fields": {"birthday":"2010-02-17", "about": "I love this company", "surname": "Tar", "name": "Dima", "contacts": "icq:321181945<br/>\r\ngtalk:zimyand@gmail.com<br/>\r\nskype:zimyand"}}]
+[{"pk": 1, "model": "simple.userinfo", "fields": {"birthday":"2010-02-17", "about": "I love this company", "surname": "Tar", "name": "Dima", "contacts": "icq:321181945<br/>\r\ngtalk:zimyand@gmail.com<br/>\r\nskype:zimyand"}},
+{
+          "pk": 1,
+          "model": "auth.user",
+          "fields": {
+               "username": "zimyandtest",
+               "first_name": "zimyandtest",
+               "last_name": "zimyandtest",
+               "is_active": true,
+               "is_superuser": false,
+               "is_staff": true,
+               "last_login": "2010-12-17 06:06:06",
+               "groups": [],
+               "user_permissions": [],
+               "password": "zimyandtest",
+               "email": "zimyandtest@gmail.com",
+               "date_joined": "2010-12-17 06:06:06"
+          }
+     }]
