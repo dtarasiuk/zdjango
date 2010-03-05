@@ -2,6 +2,8 @@ from django.test import TestCase
 from models import UserInfo, Counter
 from django.contrib.auth.models import User
 from django.template import Template, Context
+import sys
+from django.core.management import call_command
 
 class ModelTest(TestCase):
     def test_fixtures(self):
@@ -91,3 +93,11 @@ class ModelTest(TestCase):
         
         response = self.client.get(geturl)
         self.assertEqual(response.status_code, 200, 'Error in link address to admin: %s')
+
+    def test_command(self):
+        std_old = sys.stdin, sys.stdout
+        sys.stdout = open("out.txt","w")
+        call_command('printmodels')
+        response = sys.stdout.lines
+        sys.stdin, sys.stdout = std_old
+        self.assertFalse(response)
