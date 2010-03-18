@@ -17,10 +17,13 @@ class ModelTest(TestCase):
         self.assertContains(response, 'Name:')
 
     def test_correct_auth(self):
-        User.objects.create_user(username="zimyand", email='zimyand@gmail.com', password="123123z")
+        user = "zimyand"
+        password = "123123z"
+        email = 'zimyand@gmail.com'
+        User.objects.create_user(username=user, email=email, password=password)
         post_data = {
-            'username': 'zimyand',
-            'userpass': '123123z',
+            'username': user,
+            'userpass': password,
         }
         response = self.client.post('/simple/', post_data)
         self.assertEqual(response.status_code, 200)

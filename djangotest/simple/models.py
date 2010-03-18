@@ -36,40 +36,40 @@ MODIFY = 2
 DELETE = 3
 
 def modifyaddsignal(sender, **kwargs):
-    if issubclass(sender, UserInfo) or issubclass(sender, Counter):
+    #if issubclass(sender, UserInfo) or issubclass(sender, Counter):
         #couse fixtures initial problem
-        try:
-            instance = kwargs['instance']
-            created = kwargs['created']
-            object_id = instance.id
-            object_repr = instance.__unicode__()
-            if created:
-                action_flag = ADD
-            else:
-                action_flag = MODIFY
-            content_type = ContentType.objects.get(name="log entry")
-            user = User.objects.all()[0]
-            log_entry = LogEntry(object_id=object_id, object_repr = object_repr, action_flag = action_flag, content_type = content_type, user = user)
-            log_entry.save()
-        except:
-            pass
+    try:
+        instance = kwargs['instance']
+        created = kwargs['created']
+        object_id = instance.id
+        object_repr = instance.__unicode__()
+        if created:
+            action_flag = ADD
+        else:
+            action_flag = MODIFY
+        content_type = ContentType.objects.get(name="log entry")
+        user = User.objects.all()[0]
+        log_entry = LogEntry(object_id=object_id, object_repr = object_repr, action_flag = action_flag, content_type = content_type, user = user)
+        log_entry.save()
+    except:
+        pass
 
 post_save.connect(modifyaddsignal)
 
 def deletesignal(sender, **kwargs):
-    if issubclass(sender, UserInfo) or issubclass(sender, Counter):
+    #if issubclass(sender, UserInfo) or issubclass(sender, Counter):
         #couse fixtures initial problem
-        try:
-            instance = kwargs['instance']
-            object_id = instance.id
-            object_repr = instance.__unicode__()
-            action_flag = DELETE
-            content_type = ContentType.objects.get(name="log entry")
-            user = User.objects.all()[0]
-            log_entry = LogEntry(object_id=object_id, object_repr = object_repr, action_flag = action_flag, content_type = content_type, user = user)
-            log_entry.save()
-        except:
-            pass
+    try:
+        instance = kwargs['instance']
+        object_id = instance.id
+        object_repr = instance.__unicode__()
+        action_flag = DELETE
+        content_type = ContentType.objects.get(name="log entry")
+        user = User.objects.all()[0]
+        log_entry = LogEntry(object_id=object_id, object_repr = object_repr, action_flag = action_flag, content_type = content_type, user = user)
+        log_entry.save()
+    except:
+        pass
 
 
 post_delete.connect(deletesignal)
