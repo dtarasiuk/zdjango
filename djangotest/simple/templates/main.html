@@ -8,23 +8,23 @@
 <form action="/simple/" method="post">
 
     {{ form.contacts.errors }}
-    <label for="id_contacts">Contacts</label>
+    {{ form.contacts.label_tag }}: Contacts</label>
     {{ form.contacts }}
 
     {{ form.about.errors }}
-    <label for="id_about">About</label>
+    {{ form.about.label_tag }}: About</label>
     {{ form.about }}
 
     {{ form.birthday.errors }}
-    <label for="id_birthday">Birthday</label>
+    {{ form.birthday.label_tag }}: Birthday</label>
     {{ form.birthday }}
 
     {{ form.surname.errors }}
-    <label for="id_surname">Surname</label>
+    {{ form.surname.label_tag }}: Surname</label>
     {{ form.surname }}
 
     {{ form.name.errors }}
-    <label for="id_name">Name</label>
+    {{ form.name.label_tag }}: Name</label>
     {{ form.name }}
 
     <input type="submit" value="Submit" />

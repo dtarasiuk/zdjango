@@ -81,7 +81,7 @@ class ModelTest(TestCase):
         self.assertContains(response, 'Name:')
         self.assertContains(response, 'Contacts:')
         content = str(response)
-        assert(content.find('id="id_name"')>content.find('id="id_contacts"'))
+        assert(content.find('id="id_name"')>=content.find('id="id_contacts"'))
 
     def test_tags(self):
         response = self.client.get('/simple/')
