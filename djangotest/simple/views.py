@@ -1,10 +1,14 @@
-from djangotest.simple.models import UserInfoForm
-from django.template import loader, Context
-from django.http import HttpResponse, HttpResponseRedirect
-from djangotest.simple.models import UserInfo
-from django.contrib.auth import authenticate, login, logout
 from django.conf import settings
+from django.contrib.auth import authenticate
+from django.contrib.auth import login
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+from django.http import HttpResponseRedirect
+from django.template import Context
+from django.template import loader
+from djangotest.simple.models import UserInfo
+from djangotest.simple.models import UserInfoForm
 
 def main(request):
     error = []
@@ -13,11 +17,15 @@ def main(request):
     
     info = UserInfo.objects.get()
     
-    data = {'info': info, 'settings': settings}
+    data = {
+        'info': info,
+        'settings': settings
+        }
     if error:
         data['error'] = error
     if request.user.is_authenticated():
-        data['user_display_name'] = request.user.first_name+" "+request.user.last_name
+        data['user_display_name'] = request.user.first_name + \
+        " " + request.user.last_name
     c = Context(data)
     t = loader.get_template('main.html')
     return HttpResponse(t.render(c))
@@ -25,10 +33,13 @@ def main(request):
 @login_required
 def edit(request):
     info = UserInfo.objects.get()
-    form = UserInfoForm(request.POST, instance=info)
+    if request.method == 'POST':
+        form = UserInfoForm(request.POST)
+    else:
+        form = UserInfoForm()
     if form.is_valid():
         form.save()
-    data = {'info': info, 'form': form,'settings': settings}
+    data = {'info': info, 'form': form}
     c = Context(data)
     t = loader.get_template('edit.html')
     return HttpResponse(t.render(c))
