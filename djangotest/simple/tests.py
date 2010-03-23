@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.test.client import Client
 from models import UserInfo, Counter
 from django.contrib.auth.models import User
 from django.template import Template, Context
@@ -7,6 +8,12 @@ from django.core.management import call_command
 from django.contrib.admin.models import LogEntry
 
 class ModelTest(TestCase):
+
+    def __init__(self, *args):
+        super(ModelTest, self).__init__(*args)
+        self.username = "zimyand"
+        self.userpass = "123123z"
+
     def test_fixtures(self):
         infos_count = UserInfo.objects.count()
         self.assertEqual(infos_count,1)
@@ -17,13 +24,11 @@ class ModelTest(TestCase):
         self.assertContains(response, 'Name:')
 
     def test_correct_auth(self):
-        user = "zimyand"
-        password = "123123z"
         email = 'zimyand@gmail.com'
-        User.objects.create_user(username=user, email=email, password=password)
+        User.objects.create_user(username=self.username+"test", email=email, password=self.userpass)
         post_data = {
-            'username': user,
-            'userpass': password,
+            'username': self.username+"test",
+            'userpass': self.userpass,
         }
         response = self.client.post('/simple/', post_data)
         self.assertEqual(response.status_code, 200)
@@ -58,28 +63,36 @@ class ModelTest(TestCase):
 
     def test_error_edit(self):
         """not full data test"""
-        response = self.client.post('/simple/', {'name':'test name'})
+        c = Client()
+        c.login(username=self.username, password=self.userpass)
+        response = c.post('/simple/edit/', {'name':'test name'})
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "This field is required.")
 
     def test_success_edit(self):
+        c = Client()
+        c.login(username=self.username, password=self.userpass)
         info = UserInfo.objects.get()
 
-        response = self.client.post('/simple/', {'name':'new name', 'surname':'new surname', 'about': 'new about', 'contacts': 'new contacts', 'birthday': '2010-02-17'})
+        response = c.post('/simple/edit/', {'name':'new name', 'surname':'new surname', 'about': 'new about', 'contacts': 'new contacts', 'birthday': '2010-02-17'})
         info = UserInfo.objects.get()
         self.assertEqual([info.name, info.surname, info.about, info.contacts], ['new '+x for x in ['name', 'surname', 'about', 'contacts']])
 
     def test_calendar_exist(self):
-        response = self.client.get('/simple/')
+        c = Client()
+        c.login(username=self.username, password=self.userpass)
+        response = c.get('/simple/edit/')
         self.failUnlessEqual(response.status_code, 200)
         self.assertContains(response, '<select name="birthday_month" id="id_birthday_month">')
 
     def test_inverted(self):
         """Check if inverted form"""
-        response = self.client.get('/simple/')
+        c = Client()
+        c.login(username=self.username, password=self.userpass)
+        response = c.get('/simple/edit/')
         self.failUnlessEqual(response.status_code, 200)
-        self.assertContains(response, 'Name:')
-        self.assertContains(response, 'Contacts:')
+        self.assertContains(response, 'Name')
+        self.assertContains(response, 'Contacts')
         content = str(response)
         assert(content.find('id="id_name"')>=content.find('id="id_contacts"'))
 

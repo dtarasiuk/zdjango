@@ -1,32 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
+<div style="text-align: right">
+    {% if user_display_name %}
+        Hello, {{ user_display_name }}. <a href="/simple/logout/">Logout</a>
+    {% else %}
+    <span class="font-color:red">{{ error.value }}</span>
+        <form action="/simple/" onsubmit="if(!((document.getElementById('username').value)&&(document.getElementById('userpass').value))){alert('empty data!'); return false;}" method="POST">
+            login:<input name="username" id="username"/><br/>
+            pass:<input type="password" name="userpass" id="userpass"/><br/>
+            <input type="submit" value="Login"/>
+        </form>
+    {% endif %}
+</div>
+<hr/>
 <h2>Name:</h2><p>{{ info.name }}</p>
 <h2>Surname:</h2><p>{{ info.surname }}</p>
 <h2>Birthday:</h2><p>{{ info.birthday }}</p>
 <h2>About:</h2><p>{{ info.about }}</p>
 <h2>Contacts:</h2><p>{{ info.contacts|safe }}</p>
-<form action="/simple/" method="post">
-
-    {{ form.contacts.errors }}
-    {{ form.contacts.label_tag }}: Contacts</label>
-    {{ form.contacts }}
-
-    {{ form.about.errors }}
-    {{ form.about.label_tag }}: About</label>
-    {{ form.about }}
-
-    {{ form.birthday.errors }}
-    {{ form.birthday.label_tag }}: Birthday</label>
-    {{ form.birthday }}
-
-    {{ form.surname.errors }}
-    {{ form.surname.label_tag }}: Surname</label>
-    {{ form.surname }}
-
-    {{ form.name.errors }}
-    {{ form.name.label_tag }}: Name</label>
-    {{ form.name }}
-
-    <input type="submit" value="Submit" />
-</form>
+<a href="/simple/edit/">Edit</a>
 {% endblock %}

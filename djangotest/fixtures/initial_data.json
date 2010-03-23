@@ -3,16 +3,16 @@
           "pk": 1,
           "model": "auth.user",
           "fields": {
-               "username": "zimyandtest",
+               "username": "zimyand",
                "first_name": "zimyandtest",
                "last_name": "zimyandtest",
                "is_active": true,
-               "is_superuser": false,
+               "is_superuser": true,
                "is_staff": true,
                "last_login": "2010-12-17 06:06:06",
                "groups": [],
                "user_permissions": [],
-               "password": "zimyandtest",
+               "password": "sha1$8a79c$093b1962740f895c1c1d0f9a935c1d37b17818aa",
                "email": "zimyandtest@gmail.com",
                "date_joined": "2010-12-17 06:06:06"
           }

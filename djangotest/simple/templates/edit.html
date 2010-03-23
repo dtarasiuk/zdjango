@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<form action="/simple/" method="post">
+
+    {{ form.contacts.errors }}
+    {{ form.contacts.label_tag }}
+    {{ form.contacts }}
+    <br />
+    {{ form.about.errors }}
+    {{ form.about.label_tag }}
+    {{ form.about }}
+    <br />
+    {{ form.birthday.errors }}
+    {{ form.birthday.label_tag }}
+    {{ form.birthday }}
+    <br />
+    {{ form.surname.errors }}
+    {{ form.surname.label_tag }}
+    {{ form.surname }}
+    <br />
+    {{ form.name.errors }}
+    {{ form.name.label_tag }}
+    {{ form.name }}
+
+    <input type="submit" value="Submit" />
+</form>
+{% endblock %}

@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from djangotest.simple.models import UserInfo
 from django.contrib.auth import authenticate, login, logout
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 
 def main(request):
     error = []
@@ -11,18 +12,25 @@ def main(request):
         error = loginUser(request)
     
     info = UserInfo.objects.get()
-    if not info:
-        raise Exception("Empty base")
-    form = UserInfoForm(request.POST, instance=info)
-    if form.is_valid():
-        form.save()
-    data = {'info': info, 'form': form,'settings': settings}
+    
+    data = {'info': info, 'settings': settings}
     if error:
         data['error'] = error
     if request.user.is_authenticated():
         data['user_display_name'] = request.user.first_name+" "+request.user.last_name
     c = Context(data)
     t = loader.get_template('main.html')
+    return HttpResponse(t.render(c))
+
+@login_required
+def edit(request):
+    info = UserInfo.objects.get()
+    form = UserInfoForm(request.POST, instance=info)
+    if form.is_valid():
+        form.save()
+    data = {'info': info, 'form': form,'settings': settings}
+    c = Context(data)
+    t = loader.get_template('edit.html')
     return HttpResponse(t.render(c))
 
 def loginUser(request):
