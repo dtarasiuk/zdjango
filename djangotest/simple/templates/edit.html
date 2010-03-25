@@ -10,6 +10,14 @@
     {{ form.about.label_tag }}
     {{ form.about }}
     <br />
+    <link rel="stylesheet" href="http://jquery-ui.googlecode.com/svn/tags/latest/themes/base/jquery-ui.css" type="text/css" media="all" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" />
+    <script>
+        $(function() {
+		$(".datepicker").datepicker({ dateFormat: 'yy-mm-dd' });
+	});
+    </script>
     {{ form.birthday.errors }}
     {{ form.birthday.label_tag }}
     {{ form.birthday }}

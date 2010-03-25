@@ -1,11 +1,18 @@
 from django.db import models
 from django.forms import ModelForm
+from django.utils.safestring import mark_safe
 from django.forms.extras.widgets import SelectDateWidget
 from django import forms
 from django.contrib.admin.models import LogEntry
 from django.db.models.signals import post_delete, post_save
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User
+
+class ZSelectDateWidget(SelectDateWidget):
+
+    def render(self, name, value, attrs=None):
+        return mark_safe(u'<input id="id_%s" name="%s" class="datepicker"/>'% (self.attrs['name'], self.attrs['name']))
+
 
 
 class UserInfo(models.Model):
@@ -26,7 +33,7 @@ class Counter(models.Model):
         return self.url
 
 class UserInfoForm(ModelForm):
-    birthday = forms.DateField(widget=SelectDateWidget())
+    birthday = forms.DateField(widget=ZSelectDateWidget(attrs = {'name':"birthday"}))
     class Meta:
         model = UserInfo
 
