@@ -34,9 +34,9 @@ def main(request):
 def edit(request):
     info = UserInfo.objects.get()
     if request.method == 'POST':
-        form = UserInfoForm(request.POST)
+        form = UserInfoForm(request.POST, instance=info)
     else:
-        form = UserInfoForm()
+        form = UserInfoForm(instance=info)
     if form.is_valid():
         form.save()
     data = {'info': info, 'form': form}
