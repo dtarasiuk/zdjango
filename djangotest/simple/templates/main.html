@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-<div style="text-align: right">
+<div id="header">
     {% if user_display_name %}
         Hello, {{ user_display_name }}. <a href="/simple/logout/">Logout</a>
     {% else %}
-    <span style="font-color:red">{{ error.value }}</span>
+    <span class="error">{{ error.value }}</span>
         <form action="/simple/" onsubmit="if(!((document.getElementById('username').value)&&(document.getElementById('userpass').value))){alert('empty data!'); return false;}" method="POST">
             login:<input name="username" id="username"/><br/>
             pass:<input type="password" name="userpass" id="userpass"/><br/>

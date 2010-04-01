@@ -1,18 +1,12 @@
-from django.db import models
-from django.forms import ModelForm
-from django.utils.safestring import mark_safe
-from django.forms.extras.widgets import SelectDateWidget
 from django import forms
 from django.contrib.admin.models import LogEntry
-from django.db.models.signals import post_delete, post_save
-from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User
-
-class ZSelectDateWidget(SelectDateWidget):
-
-    def render(self, name, value, attrs=None):
-        return mark_safe(u'<input id="id_%s" name="%s" class="datepicker"/>'% (self.attrs['name'], self.attrs['name']))
-
+from django.contrib.contenttypes.models import ContentType
+from django.db import models
+from django.db.models.signals import post_delete
+from django.db.models.signals import post_save
+from django.forms import ModelForm
+from simple.widgets.widgets import ZSelectDateWidget
 
 
 class UserInfo(models.Model):
@@ -33,7 +27,7 @@ class Counter(models.Model):
         return self.url
 
 class UserInfoForm(ModelForm):
-    birthday = forms.DateField(widget=ZSelectDateWidget(attrs = {'name':"birthday"}))
+    birthday = forms.DateField(widget=ZSelectDateWidget(attrs={'name':"birthday"}))
     class Meta:
         model = UserInfo
 
@@ -42,7 +36,7 @@ ADD = 1
 MODIFY = 2
 DELETE = 3
 
-def modifyaddsignal(sender, **kwargs):
+def modifyaddsignal(sender, ** kwargs):
     #if issubclass(sender, UserInfo) or issubclass(sender, Counter):
         #couse fixtures initial problem
     try:
@@ -56,14 +50,18 @@ def modifyaddsignal(sender, **kwargs):
             action_flag = MODIFY
         content_type = ContentType.objects.get(name="log entry")
         user = User.objects.all()[0]
-        log_entry = LogEntry(object_id=object_id, object_repr = object_repr, action_flag = action_flag, content_type = content_type, user = user)
+        log_entry = LogEntry(object_id=object_id, \
+                             object_repr=object_repr, \
+                             action_flag=action_flag, \
+                             content_type=content_type, \
+                             user=user)
         log_entry.save()
     except:
         pass
 
 post_save.connect(modifyaddsignal)
 
-def deletesignal(sender, **kwargs):
+def deletesignal(sender, ** kwargs):
     #if issubclass(sender, UserInfo) or issubclass(sender, Counter):
         #couse fixtures initial problem
     try:
@@ -73,7 +71,11 @@ def deletesignal(sender, **kwargs):
         action_flag = DELETE
         content_type = ContentType.objects.get(name="log entry")
         user = User.objects.all()[0]
-        log_entry = LogEntry(object_id=object_id, object_repr = object_repr, action_flag = action_flag, content_type = content_type, user = user)
+        log_entry = LogEntry(object_id=object_id, \
+                             object_repr=object_repr, \
+                             action_flag=action_flag, \
+                             content_type=content_type, \
+                             user=user)
         log_entry.save()
     except:
         pass

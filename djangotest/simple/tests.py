@@ -122,22 +122,32 @@ class ModelTest(TestCase):
         self.assertEqual(geturl, url, "admin url tag error")
         
         response = self.client.get(geturl)
-        self.assertEqual(response.status_code, 200, 'Error in link address to admin: %s')
+        self.assertEqual(response.status_code, 200, \
+                         'Error in link address to admin: %s')
 
     def test_command(self):
+        class Output():
+            def __init__(self):
+                self.text = ''
+
+            def write(self, string):
+                self.text = self.text + string
+            
         std_old = sys.stdin, sys.stdout
-        sys.stdout = open("out.txt", "r+w")
+        sys.stdout = Output()
         call_command('printmodels')
         try:
-            response = sys.stdout.readlines()
+            response = sys.stdout.text
         finally:
-            sys.stdout.close()
             sys.stdin, sys.stdout = std_old
-        self.assertFalse(response)
+        self.assertTrue(response)
 
     def test_signals(self):
         old_count = LogEntry.objects.count()
-        userobject = UserInfo(name='testname', surname='testsurname', \
-                              birthday='2010-02-17', about='test', contacts='test');
+        userobject = UserInfo(name='testname', \
+                              surname='testsurname', \
+                              birthday='2010-02-17', \
+                              about='test', \
+                              contacts='test');
         userobject.save()
         self.assertNotEqual(old_count, LogEntry.objects.count())

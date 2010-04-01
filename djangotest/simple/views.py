@@ -13,7 +13,7 @@ from djangotest.simple.models import UserInfoForm
 def main(request):
     error = []
     if (request.POST.has_key('username') and request.POST.has_key('userpass')):
-        error = loginUser(request)
+        error = login_user(request)
     
     info = UserInfo.objects.get()
     
@@ -44,7 +44,7 @@ def edit(request):
     t = loader.get_template('edit.html')
     return HttpResponse(t.render(c))
 
-def loginUser(request):
+def login_user(request):
     username = request.POST['username']
     password = request.POST['userpass']
     user = authenticate(username=username, password=password)
@@ -54,6 +54,6 @@ def loginUser(request):
     else:
         return {"type": 1, "value": "pass incorrect"}
 
-def logoutUser(request):
+def logout_user(request):
     logout(request)
     return HttpResponseRedirect("../")

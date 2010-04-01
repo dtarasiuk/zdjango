@@ -1,4 +1,9 @@
-[{"pk": 1, "model": "simple.userinfo", "fields": {"birthday":"2010-02-17", "about": "I love this company", "surname": "Tar", "name": "Dima", "contacts": "icq:321181945<br/>\r\ngtalk:zimyand@gmail.com<br/>\r\nskype:zimyand"}},
+[{"pk": 1, "model": "simple.userinfo", "fields":
+            {"birthday":"2010-02-17",
+             "about": "I love this company",
+             "surname": "Tar",
+             "name": "Dima",
+             "contacts": "icq:321181945<br/>\r\ngtalk:zimyand@gmail.com<br/>\r\nskype:zimyand"}},
 {
           "pk": 1,
           "model": "auth.user",
