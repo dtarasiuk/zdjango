@@ -12,7 +12,7 @@ from djangotest.simple.models import UserInfoForm
 
 def main(request):
     error = []
-    if (request.POST.has_key('username') and request.POST.has_key('userpass')):
+    if ('username' in request.POST and 'userpass' in request.POST):
         error = login_user(request)
     
     info = UserInfo.objects.get()

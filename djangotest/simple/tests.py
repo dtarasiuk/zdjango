@@ -59,7 +59,7 @@ class ModelTest(TestCase):
 
         exist = 0
         for item in contexts:
-            if item.has_key('settings'):
+            if 'settings' in item:
                 settings = item['settings']
                 if hasattr(settings, 'INSTALLED_APPS'):
                     exist = 1
