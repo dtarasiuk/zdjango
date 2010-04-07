@@ -5,8 +5,8 @@ from django.forms.extras.widgets import SelectDateWidget
 class ZSelectDateWidget(SelectDateWidget):
 
     def render(self, name, value, attrs=None):
-        return mark_safe(u'<input id="id_%s" name="%s" class="datepicker"/>'% \
-            (self.attrs['name'], self.attrs['name']))
+        return mark_safe(u'<input id="id_%s" name="%s" value="%s" class="datepicker"/>'% \
+            (self.attrs['name'], self.attrs['name'], value))
 
     class Media:
         css = {
